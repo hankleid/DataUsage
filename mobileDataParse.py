@@ -164,7 +164,7 @@ for app in apps:
     total += (app.rb + app.tb)
     print("****** user ID " + str(app.uid) + ": " + app.totalData())
     for tag in app.tags:
-        print("********* tag " + str(tag) + ": " + tag.totalData())
+        print("tag " + str(tag) + ": " + tag.totalData())
 
     print()
 print(total)
