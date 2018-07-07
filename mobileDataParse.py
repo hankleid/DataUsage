@@ -40,7 +40,7 @@ class Tag(Stat):
 
 class App(Stat):
     def __init__(self, u):
-        super().__init__(self)
+        super().__init__()
         self.uid = u
         self.tags = []
     def addTag(self, Tag):
@@ -161,13 +161,13 @@ removeEmptyApps()
 
 total = 0
 for app in apps:
-    total += (app.rb + app.tb)
+    #total += (app.rb + app.tb)
     print("****** user ID " + str(app.uid) + ": " + app.totalData())
     for tag in app.tags:
         print("tag " + str(tag) + ": " + tag.totalData())
 
     print()
-print(total)
+#print(total)
 
 print("\n*** between " + stat.firstTime() + " and " + stat.lastTime() + ":")
 print("***\n*** data received: " + stat.dataReceived())
