@@ -40,7 +40,7 @@ class Tag(Stat):
 
 class App(Stat):
     def __init__(self, u):
-        super().__init__()
+        super().__init__(self)
         self.uid = u
         self.tags = []
     def addTag(self, Tag):
