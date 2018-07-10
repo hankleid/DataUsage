@@ -25,11 +25,11 @@ class Stat:
     def lastTime(self):
         return time.strftime("%a, %d %b %Y %H:%M:%S +0000", time.localtime(self.timestamps[-1]))
     def dataReceived(self):
-        return str(float(self.rb) / 10**6) + " MB"
+        return str(round(self.rb/10**6, 1)) + " MB"
     def dataTransmitted(self):
-        return str(float(self.tb) / 10**6) + " MB"
+        return str(round(self.tb/10**6, 1)) + " MB"
     def totalData(self):
-        return str((float(self.rb + self.tb)) / 10**6) + " MB"
+        return str(round((self.rb + self.tb)/10**6, 1)) + " MB"
 
 class Tag(Stat):
     def __init__(self, t):
@@ -153,6 +153,8 @@ def generateTags():
         t.addRb(diff)
         app.addTag(t)
 
+def percentage(part, whole):
+    return round(part/whole, 1) * 100
 
 generateStat()
 generateApps()
@@ -160,14 +162,17 @@ generateTags()
 removeEmptyApps()
 
 total = 0
+tb = 0
 for app in apps:
-    #total += (app.rb + app.tb)
-    print("****** user ID " + str(app.uid) + ": " + app.totalData())
+    total += (app.rb + app.tb)
+    tb += app.tb
+for app in apps:
+    print("****** user ID " + str(app.uid) + ": " + app.totalData() + " (" + str(percentage(app.rb + app.tb, total)) + "%" + " of total); " + app.dataTransmitted() + " (" + str(percentage(app.tb, tb)) + "%" + " of transmitted)")
     for tag in app.tags:
-        print("tag " + str(tag) + ": " + tag.totalData())
+        print("tag " + str(tag) + ": " + tag.totalData() + " (" + str(percentage(tag.rb + tag.tb, total)) + "%" + " of total); " + tag.dataTransmitted() + " (" + str(percentage(tag.tb, tb)) + "%" + " of transmitted)")
 
     print()
-#print(total)
+print("total UID data: " + str(total/10**6) + " MB")
 
 print("\n*** between " + stat.firstTime() + " and " + stat.lastTime() + ":")
 print("***\n*** data received: " + stat.dataReceived())
