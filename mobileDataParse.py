@@ -56,9 +56,6 @@ class App(Stat):
             tagData += tag.tb + tag.rb
         return tagData
 
-stat = Stat()
-apps = []
-
 def scanDataChunk(thing, s):
     # PASS ANY KIND OF Stat; STRING TO BE SCANNED
     # PROCESSES rb, tb, AND timestamps
@@ -190,6 +187,9 @@ def lastApp():
 def percentage(part, whole):
     # RETURNS ROUNDED PERCENTAGE
     return round(part/whole, 1) * 100
+
+stat = Stat()
+apps = []
 
 generateStat()
 generateApps()
