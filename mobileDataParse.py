@@ -108,12 +108,6 @@ def existingTag(a, t):
             return tag
     return None
 
-def removeEmptyApps():
-    # REMOVES EMPTY (NO DATA) Apps IN apps
-    for app in reversed(apps):
-        if app.rb + app.tb == 0:
-            apps.remove(app)
-
 def generateApps():
     # SCANS FILE FOR UIDS; ADDS AppS TO apps ACCORDINGLY
     inUIDStats = False
@@ -171,6 +165,28 @@ def generateNames():
     for app in apps:
         app.name = uidNameParse.findName(sys.argv[2], app.uid)
 
+def removeEmptyApps():
+    # REMOVES EMPTY (NO DATA) Apps IN apps
+    for app in reversed(apps):
+        if app.rb + app.tb == 0:
+            apps.remove(app)
+
+def firstApp():
+    # RETURNS App IN apps WITH FIRST LOG
+    a = apps[0]
+    for app in apps:
+        if a.timestamps[0] > app.timestamps[0]:
+            a = app.timestamps[0]
+    return a
+
+def lastApp():
+    # RETURNS App IN apps WITH THE LAST LOG
+    a = apps[0]
+    for app in apps:
+        if a.timestamps[-1] < app.timestamps[-1]:
+            a = app.timestamps[-1]
+    return a
+
 def percentage(part, whole):
     # RETURNS ROUNDED PERCENTAGE
     return round(part/whole, 1) * 100
@@ -196,11 +212,11 @@ for app in apps:
     print()
 
 print("\n\n\n")
-print("UID Stats:\n*** between " + apps[0].firstTime() + " and " + apps[-1].lastTime() + ":")
+print("UID Stats summary:\n*** between " + firstApp().firstTime() + " and " + lastApp().lastTime() + ":")
 print("*** data tramsitted: " + str(round(tb/10**6, 1)) + " MB")
 print("*** total data: " + str(round(total/10**6, 1)) + " MB" + "\n\n")
 
-print("Xt Stats:\n*** between " + stat.firstTime() + " and " + stat.lastTime() + ":")
+print("Xt Stats summary:\n*** between " + stat.firstTime() + " and " + stat.lastTime() + ":")
 print("*** data tramsitted: " + stat.dataTransmitted())
 print("*** total data: " + stat.totalData() + "\n\n")
 
