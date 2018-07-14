@@ -13,9 +13,11 @@ class Stat:
     def addTime(self, time):
         self.timestamps.append(time)
     def firstTime(self):
-        return time.strftime("%a, %d %b %Y %H:%M:%S +0000", time.localtime(self.timestamps[0]))
+        if len(self.timestamps) > 0:
+            return time.strftime("%a, %d %b %Y %H:%M:%S +0000", time.localtime(self.timestamps[0]))
     def lastTime(self):
-        return time.strftime("%a, %d %b %Y %H:%M:%S +0000", time.localtime(self.timestamps[-1]))
+        if len(self.timestamps) > 0:
+            return time.strftime("%a, %d %b %Y %H:%M:%S +0000", time.localtime(self.timestamps[-1]))
     def dataReceived(self):
         return str(round(self.rb/10**6, 1)) + " MB"
     def dataTransmitted(self):
@@ -40,10 +42,15 @@ class App(Stat):
         self.tags = []
     def addTag(self, Tag):
         self.tags.append(Tag)
-    def totalTagData(self):
-        tagData = 0
+    def totalTagRb(self):
+        tagsRb = 0
         for tag in self.tags:
-            tagData += tag.tb + tag.rb
-        return tagData
+            tagsRb += tag.rb
+        return tagsRb
+    def totalTagTb(self):
+        tagsTb = 0
+        for tag in self.tags:
+            tagsTb += tag.tb
+        return tagsTb
     def __str__(self):
         return str(self.uid)

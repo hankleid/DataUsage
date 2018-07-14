@@ -30,7 +30,7 @@ def searchApps(input):
     for app in apps:
         if app.uid == input:
             return app
-    return None
+    raise ValueError('UID not found.')
 
 def percentage(part, whole):
     # RETURNS ROUNDED PERCENTAGE
@@ -46,7 +46,9 @@ generateNames()
 if len(sys.argv) == 4:
     specialApp = searchApps(int(sys.argv[3]))
     for tag in specialApp.tags:
-        pass
+        print("tag %s:\n*** between %s and %s:" %(tag,tag.firstTime(),tag.lastTime()))
+        print("*** data tramsitted: %s" %tag.dataTransmitted())
+        print("*** total data: %s\n" %tag.totalData())
 else:
     total = 0
     tb = 0
@@ -58,16 +60,15 @@ else:
         print("****** user ID " + str(app.uid) + ": " + app.totalData() + " (" + str(percentage(app.rb + app.tb, total)) + "%" + " of total); " + app.dataTransmitted() + " (" + str(percentage(app.tb, tb)) + "%" + " of transmitted)")
         for tag in app.tags:
             print("tag " + str(tag) + ": " + tag.totalData() + " (" + str(percentage(tag.rb + tag.tb, total)) + "%" + " of total); " + tag.dataTransmitted() + " (" + str(percentage(tag.tb, tb)) + "%" + " of transmitted)")
-
         print()
 
     print("\n\n\n")
-    print("UID Stats summary:\n*** between " + firstApp().firstTime() + " and " + lastApp().lastTime() + ":")
-    print("*** data tramsitted: " + str(round(tb/10**6, 1)) + " MB")
-    print("*** total data: " + str(round(total/10**6, 1)) + " MB" + "\n\n")
+    print("UID Stats summary:\n*** between %s and %s:" %(firstApp().firstTime(),lastApp().lastTime()))
+    print("*** data tramsitted: %s MB" %str(round(tb/10**6, 1)))
+    print("*** total data: %s MB \n\n" %str(round(total/10**6, 1)))
 
-    print("Xt Stats summary:\n*** between " + stat.firstTime() + " and " + stat.lastTime() + ":")
-    print("*** data tramsitted: " + stat.dataTransmitted())
-    print("*** total data: " + stat.totalData() + "\n\n")
+    print("Xt Stats summary:\n*** between %s and %s:" %(stat.firstTime(),stat.lastTime()))
+    print("*** data tramsitted: %s" %stat.dataTransmitted())
+    print("*** total data: %s\n\n" %stat.totalData())
 
     print("\n\n\nRerun file with 3rd arg UID for detailed breakdown.")

@@ -60,10 +60,13 @@ def existingTag(a, t):
     return None
 
 def removeEmptyApps(apps):
-    # REMOVES EMPTY (NO DATA) Apps IN apps
+    # REMOVES EMPTY (ESSENTIALLY NO DATA) Apps IN apps
     for app in reversed(apps):
-        if app.rb + app.tb == 0:
+        if round((app.rb + app.tb)/10**6,1) == 0.0:
             apps.remove(app)
+        for tag in reversed(app.tags):
+            if round((tag.rb + tag.tb)/10**6,1) == 0.0:
+                app.tags.remove(tag)
 
 def generateApps(fn):
     # SCANS FILE FOR UIDS; ADDS AppS TO apps ACCORDINGLY
@@ -121,8 +124,10 @@ def generateTags(fn, apps):
             break
 
     for app in apps:
-        diff = app.tb + app.rb - app.totalTagData()
+        diff = app.tb - app.totalTagTb()
         t = chunks.Tag("Untagged")
+        t.addTb(diff)
+        diff = app.rb - app.totalTagRb()
         t.addRb(diff)
         app.addTag(t)
     removeEmptyApps(apps)
