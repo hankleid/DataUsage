@@ -1,7 +1,7 @@
-#############################
-## by Hannah Kleidermacher ##
-##       13 July 2018      ##
-#############################
+#######################################################
+#      Copyright (c) 2018 Hannah Kleidermacher.       #
+#   You may use this code in any way you see fit.     #
+#######################################################
 import time
 import chunks
 
