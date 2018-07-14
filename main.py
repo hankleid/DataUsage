@@ -1,3 +1,7 @@
+#############################
+## by Hannah Kleidermacher ##
+##       13 July 2018      ##
+#############################
 import sys
 import time
 import mobileDataParse
@@ -43,32 +47,36 @@ generateNames()
 
 
 # PRINTS FOR USER
+total = 0
+tb = 0
+for app in apps:
+    total += (app.rb + app.tb)
+    tb += app.tb
+
 if len(sys.argv) == 4:
     specialApp = searchApps(int(sys.argv[3]))
+    print("\nSUMMARY %s (uid %s):\n*** between %s and %s:" %(specialApp.name,specialApp.uid,specialApp.firstTime(),specialApp.lastTime()))
+    print("*** data transmitted: %s (%s%% of total transmitted)" %(specialApp.dataTransmitted(),percentage(specialApp.tb, tb)))
+    print("*** total data: %s (%s%% of total)" %(specialApp.totalData(), percentage(specialApp.rb + specialApp.tb, total)))
+    print("--------------------------------------------------------------------------------\n")
     for tag in specialApp.tags:
         print("tag %s:\n*** between %s and %s:" %(tag,tag.firstTime(),tag.lastTime()))
-        print("*** data tramsitted: %s" %tag.dataTransmitted())
-        print("*** total data: %s\n" %tag.totalData())
+        print("*** data transmitted: %s (%s%% of total transmitted)" %(tag.dataTransmitted(),percentage(tag.tb, tb)))
+        print("*** total data: %s (%s%% of total)\n" %(tag.totalData(),percentage(tag.rb + tag.tb, total)))
 else:
-    total = 0
-    tb = 0
+    print("\nUID Stats SUMMARY:\n*** between %s and %s:" %(firstApp().firstTime(),lastApp().lastTime()))
+    print("*** data transmitted: %s MB" %str(round(tb/10**6, 1)))
+    print("*** total data: %s MB\n" %str(round(total/10**6, 1)))
+
+    print("Xt Stats SUMMARY:\n*** between %s and %s:" %(stat.firstTime(),stat.lastTime()))
+    print("*** data transmitted: %s" %stat.dataTransmitted())
+    print("*** total data: %s" %stat.totalData())
+    print("--------------------------------------------------------------------------------\n")
+
     for app in apps:
-        total += (app.rb + app.tb)
-        tb += app.tb
-    for app in apps:
-        print(str(app.name) + ":")
-        print("****** user ID " + str(app.uid) + ": " + app.totalData() + " (" + str(percentage(app.rb + app.tb, total)) + "%" + " of total); " + app.dataTransmitted() + " (" + str(percentage(app.tb, tb)) + "%" + " of transmitted)")
+        print("\n%s:" %app.name)
+        print("****** user ID %s: %s (%s%% of total); %s (%s%% of transmitted)" %(app.uid,app.totalData(),str(percentage(app.rb + app.tb, total)),app.dataTransmitted(),str(percentage(app.tb, tb))))
         for tag in app.tags:
-            print("tag " + str(tag) + ": " + tag.totalData() + " (" + str(percentage(tag.rb + tag.tb, total)) + "%" + " of total); " + tag.dataTransmitted() + " (" + str(percentage(tag.tb, tb)) + "%" + " of transmitted)")
-        print()
+            print("tag %s: %s (%s%% of total); %s (%s%% of transmitted)" %(tag,tag.totalData(),percentage(tag.rb + tag.tb, total),tag.dataTransmitted(),percentage(tag.tb, tb)))
 
-    print("\n\n\n")
-    print("UID Stats summary:\n*** between %s and %s:" %(firstApp().firstTime(),lastApp().lastTime()))
-    print("*** data tramsitted: %s MB" %str(round(tb/10**6, 1)))
-    print("*** total data: %s MB \n\n" %str(round(total/10**6, 1)))
-
-    print("Xt Stats summary:\n*** between %s and %s:" %(stat.firstTime(),stat.lastTime()))
-    print("*** data tramsitted: %s" %stat.dataTransmitted())
-    print("*** total data: %s\n\n" %stat.totalData())
-
-    print("\n\n\nRerun file with 3rd arg UID for detailed breakdown.")
+    print("\n\nRerun file with 4th arg UID for detailed breakdown.")

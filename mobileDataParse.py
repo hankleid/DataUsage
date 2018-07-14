@@ -1,6 +1,6 @@
 #############################
 ## by Hannah Kleidermacher ##
-##       3 July 2018       ##
+##       13 July 2018      ##
 #############################
 import time
 import chunks
@@ -60,7 +60,7 @@ def existingTag(a, t):
     return None
 
 def removeEmptyApps(apps):
-    # REMOVES EMPTY (ESSENTIALLY NO DATA) Apps IN apps
+    # REMOVES EMPTY (**ESSENTIALLY** NO DATA) Apps IN apps
     for app in reversed(apps):
         if round((app.rb + app.tb)/10**6,1) == 0.0:
             apps.remove(app)
@@ -80,6 +80,8 @@ def generateApps(fn):
     infoGrabbed = False
 
     for line in lines:
+        # IF UID DOES NOT EXIST IN APP LIST, COLLECT INFO & ADD APP
+        # IF UID EXISTS, COLLECT INFO & ADD TO EXISTING APP
         if 'UID stats' in line:
             inUIDStats = True
         if inUIDStats and ('MOBILE' and 'metered=true' and 'uid=') in line:
@@ -107,6 +109,8 @@ def generateTags(fn, apps):
     infoGrabbed = False
 
     for line in lines:
+        # IF TAG DOES NOT EXIST FOR CURRENT UID, COLLECT INFO & ADD TAG
+        # IF TAG EXISTS FOR CURRENT UID, COLLECT INFO & ADD TO EXISTING TAG
         if 'UID tag stats' in line:
             inUIDTag = True
         if inUIDTag and ('uid=' and 'tag=') in line:
@@ -124,10 +128,13 @@ def generateTags(fn, apps):
             break
 
     for app in apps:
+        # ACCOUNTS FOR DATA NOT INCLUDED UNDER A TAG
         diff = app.tb - app.totalTagTb()
         t = chunks.Tag("Untagged")
         t.addTb(diff)
         diff = app.rb - app.totalTagRb()
         t.addRb(diff)
+        t.addTime(app.timestamps[0])
+        t.addTime(app.timestamps[-1])
         app.addTag(t)
     removeEmptyApps(apps)

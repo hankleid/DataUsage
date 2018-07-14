@@ -1,3 +1,7 @@
+#############################
+## by Hannah Kleidermacher ##
+##       13 July 2018      ##
+#############################
 def findName(fn, uid):
     # PASS FILE NAME STR; UID INT
     # RETURNS UID'S CORRESPONDING NAME, IF EXISTS
