@@ -1,8 +1,7 @@
 # DataUsage
-#### #######################################################
-#      Copyright (c) 2018 Hannah Kleidermacher.       #
-#   You may use this code in any way you see fit.     #
-#######################################################
+#### Copyright (c) 2018 Hannah Kleidermacher.
+#### You may use this code in any way you see fit.
+
 argv[0] (directory): this repo's mobileDataParse.py
 
 argv[1] (directory): data file w/ Xt stats, UID stats, UID tag stats
