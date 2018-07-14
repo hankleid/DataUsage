@@ -1,6 +1,5 @@
 # DataUsage
-#### Copyright (c) 2018 Hannah Kleidermacher.
-#### You may use this code in any way you see fit.
+#### Copyright (c) 2018 Hannah Kleidermacher. You may use this code in any way you see fit.
 
 argv[0] (directory): this repo's mobileDataParse.py
 
