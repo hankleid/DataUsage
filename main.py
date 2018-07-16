@@ -38,7 +38,7 @@ def searchApps(input):
 
 def percentage(part, whole):
     # RETURNS ROUNDED PERCENTAGE
-    return round(part/whole, 1) * 100
+    return round(part/whole * 100, 1)
 
 stat = mobileDataParse.generateStat(sys.argv[1])
 apps = mobileDataParse.generateApps(sys.argv[1])
@@ -50,8 +50,8 @@ generateNames()
 total = 0
 tb = 0
 for app in apps:
-    total += (app.rb + app.tb)
     tb += app.tb
+    total += (app.tb + app.rb)
 
 if len(sys.argv) == 4:
     specialApp = searchApps(int(sys.argv[3]))
