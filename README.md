@@ -3,7 +3,9 @@
 
 
 adb shell dumpsys package  > packages.out
+
 adb shell dumpsys netstats detail full > usage.out
+
 python3 main.py usage.out packages.out 
 
 
